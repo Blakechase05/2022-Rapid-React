@@ -1,2 +1,2 @@
 # 2022-Rapid-React
-2022 Rapid React C++ Code for the WARP FRC Scrimmage
+## 2022 C++ Code for the FRC Western Australian Robotics Playoffs (WARP)
