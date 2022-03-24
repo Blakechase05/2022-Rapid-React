@@ -1,6 +1,6 @@
 #include "Robot.h"
 
-const int deadzone = 0.15;
+const double deadzone = 0.15;
 
 /*
 ** Xbox Controllers
@@ -16,7 +16,6 @@ wml::SparkMax driveLeftBack {99, wml::SparkMax::MotorType::kBrushed, 0};
 
 wml::SparkMax driveRightFront {99, wml::SparkMax::MotorType::kBrushed, 0};
 wml::SparkMax driveRightBack {99, wml::SparkMax::MotorType::kBrushed, 0};
-
 
 /**
  * Robot boot init, then runs periodic
@@ -38,7 +37,16 @@ void Robot::RobotPeriodic() {}
  * Inits and runs auto code
  */
 void Robot::AutonomousInit() {}
-void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousPeriodic() {
+  double autoSpeed = 0.3;
+
+  driveLeftFront.Set(autoSpeed);
+  driveLeftBack.Set(autoSpeed);
+
+  driveRightFront.Set(autoSpeed);
+  driveRightBack.Set(autoSpeed);
+
+}
 
 /**
  * Inits and runs teleop (driver controlled) code
@@ -68,7 +76,7 @@ void Robot::TeleopPeriodic() {
    */
   driveLeftFront.Set(driveLeftSpeed);
   driveLeftBack.Set(driveLeftSpeed);
-  
+
   driveRightFront.Set(driveRightSpeed);
   driveRightBack.Set(driveRightSpeed);
 }
