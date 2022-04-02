@@ -1,9 +1,10 @@
 #pragma once
 
 #include "RobotMap.h"
+#include "Drivebase.h"
 
 class Robot : public frc::TimedRobot, protected wml::StrategyController, protected wml::NTProvider {
- public:
+  public:
     void RobotInit() override;
     void RobotPeriodic() override;
 
@@ -18,5 +19,9 @@ class Robot : public frc::TimedRobot, protected wml::StrategyController, protect
 
     void TestInit() override;
     void TestPeriodic() override;
+
+  private:
+    // RobotMap robotmap;
+    // wml::Drivetrain *drivetrain;
 
 };
