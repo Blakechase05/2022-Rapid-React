@@ -19,8 +19,8 @@ void Robot::RobotInit() {
   drivetrain->StartLoop(100);
 
   // Invert one side of drivetrain so it go straight
-  drivetrain->SetInverted(true); // PROLLY WONT WORK!! :]
-  drivetrain->SetInverted(false);
+  drivetrain->GetConfig().leftDrive.transmission->SetInverted(true);
+  drivetrain->GetConfig().rightDrive.transmission->SetInverted(false);
 
   // Register our systems to be called via strategy
   StrategyController::Register(drivetrain);
@@ -45,6 +45,9 @@ void Robot::RobotPeriodic() {
  * Inits and runs auto code
  */
 void Robot::AutonomousInit() {
+  // Reset Gyro
+  drivetrain->GetConfig().gyro->Reset();
+
   // Start timer
   t->Start();
 }
@@ -59,7 +62,7 @@ void Robot::AutonomousPeriodic() {
  * Inits and runs teleop (driver controlled) code
  */
 void Robot::TeleopInit() {
-
+  Schedule(drivetrain->GetDefaultStrategy(), true);
 }
 void Robot::TeleopPeriodic() {}
 
