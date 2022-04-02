@@ -1,20 +1,59 @@
 #include "Robot.h"
 
+double currentTimeStamp;
+double lastTimeStamp;
+double dt;
+
 /**
  * Robot boot init, then runs periodic
  */
 void Robot::RobotInit() {
-  //Init the controllers
-  // ControlMap::InitSmartControllerGroup(robotmap.contGroup);
+  // Init the controllers
+  ControlMap::InitSmartControllerGroup(robotmap.contGroup);
 
+  // Make new drivetrain
+  drivetrain = new wml::Drivetrain(robotmap.drivetrainSystem.drivetrainConfig, robotmap.drivetrainSystem.gainsVelocity);
+
+  // Set default strategy for drivetrain to manual
+  drivetrain->SetDefault(std::make_shared<DrivetrainManual>("Drivetrain Manual", *drivetrain, robotmap.contGroup));
+  drivetrain->StartLoop(100);
+
+  // Invert one side of drivetrain so it go straight
+  drivetrain->SetInverted(true); // PROLLY WONT WORK!! :]
+  drivetrain->SetInverted(false);
+
+  // Register our systems to be called via strategy
+  StrategyController::Register(drivetrain);
+
+  // Make timer
+  t = new frc::Timer();
 }
-void Robot::RobotPeriodic() {}
+
+void Robot::Update(double dt) {
+  StrategyController::Update(dt);
+}
+
+void Robot::RobotPeriodic() {
+  currentTimeStamp = (double)frc::Timer::GetFPGATimestamp();
+  dt = currentTimeStamp - lastTimeStamp;
+  
+  
+  lastTimeStamp = currentTimeStamp;
+}
 
 /**
  * Inits and runs auto code
  */
-void Robot::AutonomousInit() {}
-void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousInit() {
+  // Start timer
+  t->Start();
+}
+
+void Robot::AutonomousPeriodic() {
+  // If time is less than or equal to 5 seconds, set drivetrain speed to 50%, if over, set 0%
+  (double)t->Get() <= 5 ? drivetrain->Set(0.5, 0.5) : drivetrain->Set(0, 0);
+
+}
 
 /**
  * Inits and runs teleop (driver controlled) code
