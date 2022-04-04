@@ -4,7 +4,6 @@
 #include <string>
 #include <stdint.h>
 
-
 // FRC/WPI
 #include <frc/Timer.h>
 #include <frc/TimedRobot.h>
