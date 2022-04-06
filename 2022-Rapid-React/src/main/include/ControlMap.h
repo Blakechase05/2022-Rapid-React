@@ -18,27 +18,33 @@ struct ControlMap {
   static constexpr double xboxDeadzone = 0.15;
   static constexpr double triggerDeadzone = 0.05;
 
-  struct Drivetrain {
+  struct Swerve {
     static constexpr double trackWidth = 0.56;
     static constexpr double trackDepth = 0.60;
     static constexpr double wheelRadius = 0.0762;
     static constexpr double mass = 50;
 
-    static constexpr int leftMotorPortF = 99;
-    static constexpr int leftMotorPortB = 99;
+    static constexpr int frontLeftDrivePort = 99;
+    static constexpr int frontLeftSteerPort = 99;
+    
+    static constexpr int frontRightDrivePort = 99;
+    static constexpr int frontRightSteerPort = 99;
 
-    static constexpr int rightMotorPortF = 99;
-    static constexpr int rightMotorPortB = 99;
-
-    static constexpr double maxDrivetrainPower = 0.8; // never trust the drivers
+    static constexpr int backLeftDrivePort = 99;
+    static constexpr int backLeftSteerPort = 99;
+    
+    static constexpr int backRightDrivePort = 99;
+    static constexpr int backRightSteerPort = 99;
+    
+    static constexpr double swerveMaxPower = 0.8; // never trust the drivers
   };
-  
 
   //-------- CONTROLS ---------
 
-  // Drivetrain
-  inline static const wml::controllers::tAxis leftDrive {driver, wml::controllers::XboxController::kLeftXAxis};
-  inline static const wml::controllers::tAxis rightDrive {driver, wml::controllers::XboxController::kRightYAxis};
+  // Swerve
+  inline static const wml::controllers::tAxis fwdDrive {driver, wml::controllers::XboxController::kLeftXAxis};
+  inline static const wml::controllers::tAxis strDrive {driver, wml::controllers::XboxController::kLeftYAxis};
+  inline static const wml::controllers::tAxis rotateDrive {driver, wml::controllers::XboxController::kRightXAxis};
 
  // Intake
 

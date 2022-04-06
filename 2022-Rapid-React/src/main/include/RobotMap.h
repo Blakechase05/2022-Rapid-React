@@ -51,6 +51,9 @@
 #include <sensors/BinarySensor.h>
 #include <rev/CANSparkMax.h>
 
+// Swerve
+#include <
+
 // WML Rev
 #include <WMLRev.h>
 
@@ -66,25 +69,34 @@ struct RobotMap {
   wml::controllers::XboxController xbox2 {ControlMap::xbox2Port};
   wml::controllers::SmartControllerGroup contGroup{xbox1, xbox2};
 
-  struct DrivetrainSystem {
-    wml::SparkMax leftMotorF {ControlMap::Drivetrain::leftMotorPortF, wml::SparkMax::MotorType::kBrushed, 0};
-    wml::SparkMax leftMotorB {ControlMap::Drivetrain::leftMotorPortB, wml::SparkMax::MotorType::kBrushed, 0};
-    
-    wml::SparkMax rightMotorF {ControlMap::Drivetrain::rightMotorPortF, wml::SparkMax::MotorType::kBrushed, 0};
-    wml::SparkMax rightMotorB {ControlMap::Drivetrain::rightMotorPortB, wml::SparkMax::MotorType::kBrushed, 0};
+  class SwerveSystem {
+    // Front left
+    wml::SparkMax frontLeftDrive {ControlMap::Swerve::frontLeftDrivePort , wml::SparkMax::MotorType::kNEO, 42};
+    wml::SparkMax frontLeftSteer {ControlMap::Swerve::frontLeftSteerPort , wml::SparkMax::MotorType::kNEO, 42};
 
-    wml::actuators::MotorVoltageController leftMotors = wml::actuators::MotorVoltageController::Group(leftMotorF, leftMotorB);
-    wml::actuators::MotorVoltageController rightMotors = wml::actuators::MotorVoltageController::Group(rightMotorF, rightMotorB);
+    // Front right
+    wml::SparkMax frontRightDrive {ControlMap::Swerve::frontRightDrivePort , wml::SparkMax::MotorType::kNEO, 42};
+    wml::SparkMax frontRightSteer {ControlMap::Swerve::frontRightSteerPort, wml::SparkMax::MotorType::kNEO, 42};
 
-    wml::Gearbox LGearbox {&leftMotors, &leftMotorF};
-    wml::Gearbox RGearbox {&rightMotors, &rightMotorF};
+    // Back left
+    wml::SparkMax backLeftDrive {ControlMap::Swerve::backLeftDrivePort , wml::SparkMax::MotorType::kNEO, 42};
+    wml::SparkMax backLeftSteer {ControlMap::Swerve::backLeftSteerPort , wml::SparkMax::MotorType::kNEO, 42};
 
-    wml::sensors::NavX NavX {frc::SPI::Port::kMXP};
-    wml::sensors::NavXGyro gyro {NavX.Angular(wml::sensors::AngularAxis::YAW)};
+    // Back right
+    wml::SparkMax backRightDrive {ControlMap::Swerve::backRightDrivePort , wml::SparkMax::MotorType::kNEO, 42};
+    wml::SparkMax backRightSteer {ControlMap::Swerve::backRightSteerPort , wml::SparkMax::MotorType::kNEO, 42};
 
-    wml::DrivetrainConfig drivetrainConfig{LGearbox, RGearbox, &gyro, ControlMap::Drivetrain::trackWidth, ControlMap::Drivetrain::trackDepth, ControlMap::Drivetrain::wheelRadius, ControlMap::Drivetrain::mass};
-    wml::control::PIDGains gainsVelocity{"Drivetrain Velocity", 1};
-    wml::Drivetrain drivetrain{drivetrainConfig, gainsVelocity};
+    wml::sensors::NavX navX{frc::SPI::Port::kMXP};
+    wml::sensors::NavXGyro gyro{navX.Angular(wml::sensors::AngularAxis::YAW)};
 
-  }; DrivetrainSystem drivetrainSystem;
+    // Absolute Encoder
+
+    // Turning PID
+
+    // Encoder stuff
+    bool absEncoderReversed;
+    double absEncoderOffsetRad = 0;
+
+  }; SwerveSystem swerveSystem;
+
 };

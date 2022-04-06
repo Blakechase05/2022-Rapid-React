@@ -1,8 +1,7 @@
 #pragma once
 
 #include "RobotMap.h"
-#include "Drivebase.h"
-#include "Auto.h"
+#include "Swerve.h"
 
 class Robot : public frc::TimedRobot, protected wml::StrategyController, protected wml::NTProvider, protected wml::loops::LoopSystem {
   public:
@@ -25,6 +24,5 @@ class Robot : public frc::TimedRobot, protected wml::StrategyController, protect
 
   private:
     RobotMap robotmap;
-    wml::Drivetrain *drivetrain;
     frc::Timer* t;
 };
