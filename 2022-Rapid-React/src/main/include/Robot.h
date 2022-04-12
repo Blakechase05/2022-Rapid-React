@@ -1,8 +1,16 @@
 #pragma once
 
+// Include Subsystem Files
 #include "RobotMap.h"
 #include "Drivebase.h"
-#include "Auto.h"
+#include "Intake.h"
+#include "Shooter.h"
+#include "Climber.h"
+
+// Include Strategy Files
+#include "Strategy/IntakeStrategy.h"
+#include "Strategy/ShooterStrategy.h"
+#include "Strategy/ClimberStrategy.h"
 
 class Robot : public frc::TimedRobot, protected wml::StrategyController, protected wml::NTProvider, protected wml::loops::LoopSystem {
   public:
@@ -25,6 +33,9 @@ class Robot : public frc::TimedRobot, protected wml::StrategyController, protect
 
   private:
     RobotMap robotmap;
+
+    // Subsystems :]
     wml::Drivetrain *drivetrain;
+    
     frc::Timer* t;
 };

@@ -32,6 +32,27 @@ struct ControlMap {
 
     static constexpr double maxDrivetrainPower = 0.8; // never trust the drivers
   };
+
+  struct Intake {
+    // Intake Motor Ports
+    static constexpr int intakeMotorPort = 99;
+    static constexpr int indexWheelMotorPort = 99;
+    static constexpr int magazineMotorPort = 99;
+  };
+
+  struct Shooter {
+    // Shooter Motor Ports
+    static constexpr int shooterMotorPort = 99;
+  };
+
+  struct Climber {
+    // Climber Motor Ports
+    static constexpr int leftClimbMotorPort = 99;
+    static constexpr int rightClimbMotorPort = 99;
+
+    // Max Power
+    static constexpr double maxClimbPower = 0.5; // Never trust the codriver
+  };
   
 
   //-------- CONTROLS ---------
@@ -40,13 +61,16 @@ struct ControlMap {
   inline static const wml::controllers::tAxis leftDrive {driver, wml::controllers::XboxController::kLeftXAxis};
   inline static const wml::controllers::tAxis rightDrive {driver, wml::controllers::XboxController::kRightYAxis};
 
- // Intake
-
-  // Magazine
+  // Intake
+  inline static const wml::controllers::tAxis intakeInOut {coDriver, wml::controllers::XboxController::kRightYAxis};
+  inline static const wml::controllers::tButton magUpDown {coDriver, wml::controllers::XboxController::kBottomRight};
 
   // Shooter
+  inline static const wml::controllers::tButton shootStartStop {coDriver, wml::controllers::XboxController::kBumperRight};
 
   // Climber
-
+  inline static const wml::controllers::tButton climberSwitch {coDriver, wml::controllers::XboxController::kA};
+  inline static const wml::controllers::tAxis climberUpDown {coDriver, wml::controllers::XboxController::kLeftYAxis};
+  inline static const wml::controllers::tButton autoClimb {coDriver, wml::controllers::XboxController::kY};
 
 };

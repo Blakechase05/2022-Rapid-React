@@ -63,22 +63,27 @@
 
 struct RobotMap {
 
-  wml::controllers::XboxController xbox1 {ControlMap::xbox1Port};
-  wml::controllers::XboxController xbox2 {ControlMap::xbox2Port};
+  // Controllers Definitions (Xbox[1/2] are Left/Right Respectively 
+  wml::controllers::XboxController xbox1 {ControlMap::xbox1Port}; // LEFT STICK
+  wml::controllers::XboxController xbox2 {ControlMap::xbox2Port}; // RIGHT STICK
+  // Creates group to place the controllers into
   wml::controllers::SmartControllerGroup contGroup{xbox1, xbox2};
 
   struct DrivetrainSystem {
-    wml::SparkMax leftMotorF {ControlMap::Drivetrain::leftMotorPortF, wml::SparkMax::MotorType::kBrushed, 0};
-    wml::SparkMax leftMotorB {ControlMap::Drivetrain::leftMotorPortB, wml::SparkMax::MotorType::kBrushed, 0};
+    // L/R DRIVE BASE MOTORS FRONT AND BACK
+    wml::SparkMax leftMotorF {ControlMap::Drivetrain::leftMotorPortF, wml::SparkMax::MotorType::kBrushed, 0}; // LEFT DRIVE MOTOR FRONT
+    wml::SparkMax leftMotorB {ControlMap::Drivetrain::leftMotorPortB, wml::SparkMax::MotorType::kBrushed, 0}; // LEFT DRIVE MOTOR BACK
     
-    wml::SparkMax rightMotorF {ControlMap::Drivetrain::rightMotorPortF, wml::SparkMax::MotorType::kBrushed, 0};
-    wml::SparkMax rightMotorB {ControlMap::Drivetrain::rightMotorPortB, wml::SparkMax::MotorType::kBrushed, 0};
+    wml::SparkMax rightMotorF {ControlMap::Drivetrain::rightMotorPortF, wml::SparkMax::MotorType::kBrushed, 0}; // RIGHT DRIVE MOTOR FRONT
+    wml::SparkMax rightMotorB {ControlMap::Drivetrain::rightMotorPortB, wml::SparkMax::MotorType::kBrushed, 0}; // RIGHT DRIVE MOTOR BACK
 
-    wml::actuators::MotorVoltageController leftMotors = wml::actuators::MotorVoltageController::Group(leftMotorF, leftMotorB);
-    wml::actuators::MotorVoltageController rightMotors = wml::actuators::MotorVoltageController::Group(rightMotorF, rightMotorB);
+    // MOTOR GROUPS
+    wml::actuators::MotorVoltageController leftMotors = wml::actuators::MotorVoltageController::Group(leftMotorF, leftMotorB);    // MOTOR GROUP L
+    wml::actuators::MotorVoltageController rightMotors = wml::actuators::MotorVoltageController::Group(rightMotorF, rightMotorB); // MOTOR GROUP R
 
-    wml::Gearbox LGearbox {&leftMotors, &leftMotorF};
-    wml::Gearbox RGearbox {&rightMotors, &rightMotorF};
+    // GEAR BOXES
+    wml::Gearbox LGearbox {&leftMotors, &leftMotorF};   // Left Gear Box
+    wml::Gearbox RGearbox {&rightMotors, &rightMotorF}; // Right Gear Box
 
     wml::sensors::NavX NavX {frc::SPI::Port::kMXP};
     wml::sensors::NavXGyro gyro {NavX.Angular(wml::sensors::AngularAxis::YAW)};
@@ -88,4 +93,26 @@ struct RobotMap {
     wml::Drivetrain drivetrain{drivetrainConfig, gainsVelocity};
 
   }; DrivetrainSystem drivetrainSystem;
+
+  struct IntakeSystem {
+    wml::SparkMax intakeMotor {ControlMap::Intake::intakeMotorPort, wml::SparkMax::MotorType::kNEO, 42};
+    wml::SparkMax indexWheelMotor {ControlMap::Intake::indexWheelMotorPort, wml::SparkMax::MotorType::kBrushless, 42};
+    wml::SparkMax magazineMotor {ControlMap::Intake::magazineMotorPort, wml::SparkMax::MotorType::kBrushless, 42};
+
+    // Limit Switch
+    wml::sensors::LimitSwitch limitSwitch {99, false, "Funny Switch"};
+
+  }; IntakeSystem intakeSystem;
+
+  struct ShooterSystem {
+    wml::SparkMax shooterMotor {ControlMap::Shooter::shooterMotorPort, wml::SparkMax::MotorType::kBrushless, 2048};
+
+  }; ShooterSystem shooterSystem;
+
+  struct ClimberSystem {
+    wml::SparkMax leftClimbMotor {ControlMap::Climber::leftClimbMotorPort ,wml::SparkMax::MotorType::kNEO , 42};
+    wml::SparkMax rightClimbMotor {ControlMap::Climber::rightClimbMotorPort, wml::SparkMax::MotorType::kNEO, 42};
+
+  }; ClimberSystem climberSystem;
+
 };
