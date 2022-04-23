@@ -1,4 +1,5 @@
 #include "Robot.h"
+#include "Climber.cpp"
 
 double currentTimeStamp;
 double lastTimeStamp;

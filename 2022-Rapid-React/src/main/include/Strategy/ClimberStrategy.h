@@ -1,34 +1,28 @@
-#pragma once
+#pragma once 
 
 #include "Climber.h"
-#include "controllers/Controller.h"
+#include "strategy/Strategy.h"
 
-class ClimberManualStrategy : wml::Strategy {
-  public:
-    ClimberManualStrategy(std::string name, Climber &climber, wml::controllers::SmartControllerGroup &contGroup);
+using Controllers = wml::controllers::SmartControllerGroup;
 
-    void OnUpdate(double dt) override;
+class ClimberStrategy : public wml::Strategy {
+ public:
+  ClimberStrategy(std::string name, Climber &climber, Controllers &contGroup);
 
-  private:
-    Climber &_climber;
-    wml::controllers::SmartControllerGroup &_contGroup;
+  void OnUpdate(double dt) override;
+ private:
+  Climber &_climber;
+  Controllers &_contGroup;
+
 };
 
 
-class ClimberAutoStrategy : wml::Strategy {
-  public:
-    void OnUpdate(double dt) override;
+class ClimberDisableStrategy : public wml::Strategy {
+ public:
+  ClimberDisableStrategy(std::string name, Climber &climber);
 
-  private:
-    Climber &_climber;
-    wml::controllers::SmartControllerGroup &_contGroup;
-};
+  void OnUpdate(double dt);
+ private:
+  Climber &_climber;
 
-
-class ClimberDisableStrategy : wml::Strategy {
-  public:
-    void OnUpdate(double dt) override;
-
-  private:
-    Climber &_climber;
 };
