@@ -32,10 +32,11 @@ class Robot : public frc::TimedRobot, protected wml::StrategyController, protect
     void Update(double dt) override;
 
   private:
-    RobotMap robotmap;
+    RobotMap robotMap;
 
     // Subsystems :]
     wml::Drivetrain *drivetrain;
+    Climber *climber;
     
     frc::Timer* t;
 };

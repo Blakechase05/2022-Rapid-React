@@ -12,5 +12,11 @@ void ClimberStrategy::OnUpdate(double dt) {
 }
 
 ClimberDisableStrategy::ClimberDisableStrategy(std::string name, Climber &climber) : Strategy(name), _climber(climber) {
+  SetCanBeInterrupted(true);
+  SetCanBeReused(true);
+  Requires(&climber);
+}
 
+void ClimberDisableStrategy::OnUpdate(double dt) {
+  _climber.disabledClimber();
 }

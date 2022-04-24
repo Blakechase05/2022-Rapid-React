@@ -1,15 +1,15 @@
 #pragma once
 
-#include "RobotMap.h"
+#include <iostream>
 #include "controllers/Controller.h"
+#include "RobotMap.h"
 
 enum class ClimberState {
   kStowed = 0,
-  kDeployed,
-  kAuto
+  kDeployed
 };
 
-class Climber : public wml::StrategyController, public wml::loops::LoopSystem {
+class Climber : public wml::StrategySystem, public wml::loops::LoopSystem {
   public:
     Climber(RobotMap::ClimberSystem &climberSystem, wml::controllers::SmartControllerGroup &contGroup);
 

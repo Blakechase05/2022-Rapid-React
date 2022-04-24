@@ -1,5 +1,4 @@
 #include "Robot.h"
-#include "Climber.cpp"
 
 double currentTimeStamp;
 double lastTimeStamp;
@@ -10,13 +9,20 @@ double dt;
  */
 void Robot::RobotInit() {
   // Init the controllers
-  ControlMap::InitSmartControllerGroup(robotmap.contGroup);
+  ControlMap::InitSmartControllerGroup(robotMap.contGroup);
+
+  climber = new Climber(robotMap.climberSystem, robotMap.contGroup);
+  climber->SetDefault(std::make_shared<ClimberStrategy>("Climber Manual Strategy", *climber, robotMap.contGroup));
+  climber->StartLoop(100);
+
+  robotMap.climberSystem.leftClimbMotor.SetInverted(false);
+  robotMap.climberSystem.rightClimbMotor.SetInverted(false);
 
   // Make new drivetrain
-  drivetrain = new wml::Drivetrain(robotmap.drivetrainSystem.drivetrainConfig, robotmap.drivetrainSystem.gainsVelocity);
+  drivetrain = new wml::Drivetrain(robotMap.drivetrainSystem.drivetrainConfig, robotMap.drivetrainSystem.gainsVelocity);
 
   // Set default strategy for drivetrain to manual
-  drivetrain->SetDefault(std::make_shared<DrivetrainManual>("Drivetrain Manual", *drivetrain, robotmap.contGroup));
+  drivetrain->SetDefault(std::make_shared<DrivetrainManual>("Drivetrain Manual", *drivetrain, robotMap.contGroup));
   drivetrain->StartLoop(100);
 
   // Invert one side of drivetrain so it go straight
@@ -25,6 +31,7 @@ void Robot::RobotInit() {
 
   // Register our systems to be called via strategy
   StrategyController::Register(drivetrain);
+  StrategyController::Register(climber);
 
   // Make timer
   t = new frc::Timer();
@@ -54,7 +61,7 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
-  // If time is less than or equal to 5 seconds, set drivetrain speed to 50%, if over, set 0%
+  // If time is less than or equal to 5 seconds, set drivetrain speed to 0.5, if over, set 0
   (double)t->Get() <= 5 ? drivetrain->Set(0.5, 0.5) : drivetrain->Set(0, 0);
 
 }
@@ -64,8 +71,13 @@ void Robot::AutonomousPeriodic() {
  */
 void Robot::TeleopInit() {
   Schedule(drivetrain->GetDefaultStrategy(), true);
+  Schedule(climber->GetDefaultStrategy(), true);
 }
-void Robot::TeleopPeriodic() {}
+
+void Robot::TeleopPeriodic() {
+  climber->updateClimber(dt);
+
+}
 
 /**
  * Runs instead of RobotInit and RobotPeriodic

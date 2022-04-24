@@ -10,7 +10,7 @@ void Climber::Update(double dt) {
 
 void Climber::updateClimber(double dt) {
   switch(_state) {
-    case ClimberState::kDeployed:
+    case ClimberState::kDeployed: {
       double climberPower = fabs(_contGroup.Get(ControlMap::climberUpDown)) > ControlMap::triggerDeadzone ? _contGroup.Get(ControlMap::magUpDown) : 0;
 
       climberPower *= ControlMap::Climber::maxClimbPower;
@@ -19,25 +19,23 @@ void Climber::updateClimber(double dt) {
       _climberSystem.rightClimbMotor.Set(climberPower);
 
       break;
+    }
 
-    case ClimberState::kStowed:
+    case ClimberState::kStowed: {
       _climberSystem.leftClimbMotor.Set(0);
       _climberSystem.rightClimbMotor.Set(0);
 
       break;
+    }
 
-    case ClimberState::kAuto:
-      // Uhhh I'll do this later...
-
-      break;
-
-    defualt:
+    default: {
       std::cout << "Climber is in default state, something is wrong\n";
       break;
+    }
   }
 }
 
-void Climber::disabledClimber(double dt) {
+void Climber::disabledClimber() {
   _state = ClimberState::kStowed;
 }
 
