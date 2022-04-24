@@ -20,6 +20,8 @@ class Climber : public wml::StrategySystem, public wml::loops::LoopSystem {
     void Update(double dt) override;
 
   private:
+    bool climberToggle = false;
+
     ClimberState _state{ClimberState::kStowed};
     RobotMap::ClimberSystem &_climberSystem;
     wml::controllers::SmartControllerGroup &_contGroup;

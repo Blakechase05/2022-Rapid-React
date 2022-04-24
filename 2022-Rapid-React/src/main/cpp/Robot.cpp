@@ -85,7 +85,7 @@ void Robot::TeleopPeriodic() {
  */
 void Robot::DisabledInit() {
   InterruptAll(true);
-
+  Schedule(std::make_shared<ClimberDisableStrategy>("Climber Disable Strategy", *climber));
 }
 void Robot::DisabledPeriodic() {}
 

@@ -11,6 +11,7 @@ class ClimberStrategy : public wml::Strategy {
 
   void OnUpdate(double dt) override;
  private:
+  bool _climberToggle = false;
   Climber &_climber;
   Controllers &_contGroup;
 
@@ -23,6 +24,8 @@ class ClimberDisableStrategy : public wml::Strategy {
 
   void OnUpdate(double dt);
  private:
+  bool _climberToggle = false;
+
   Climber &_climber;
 
 };
