@@ -51,6 +51,8 @@
 #include <strategy/Strategy.h>
 #include <sensors/BinarySensor.h>
 #include <rev/CANSparkMax.h>
+#include "rev/ColorSensorV3.h"
+#include "rev/ColorMatch.h"
 
 // WML Rev
 #include <WMLRev.h>
@@ -95,12 +97,20 @@ struct RobotMap {
   }; DrivetrainSystem drivetrainSystem;
 
   struct IntakeSystem {
-    wml::SparkMax intakeMotor {ControlMap::Intake::intakeMotorPort, wml::SparkMax::MotorType::kNEO, 42};
-    wml::SparkMax indexWheelMotor {ControlMap::Intake::indexWheelMotorPort, wml::SparkMax::MotorType::kBrushless, 42};
+    wml::SparkMax intakeMotor {ControlMap::Intake::intakeMotorPort, wml::SparkMax::MotorType::kBrushed, 42};
     wml::SparkMax magazineMotor {ControlMap::Intake::magazineMotorPort, wml::SparkMax::MotorType::kBrushless, 42};
+    wml::SparkMax magazineIndexMotor {ControlMap::Intake::magazineIndexMotorPort, wml::SparkMax::MotorType::kBrushless, 42};
 
-    // Limit Switch
-    wml::sensors::LimitSwitch limitSwitch {99, false, "Funny Switch"};
+    // rev::ColorSensorV3 lowColourSensor {ControlMap::Intake::lowColourSensorPort};
+    // static rev::ColorMatch colourMatcher;
+
+    // static constexpr frc::Color kBlueTarget = frc::Color(0.143, 0.427, 0.429);
+    // static constexpr frc::Color kRedTarget = frc::Color(0.561, 0.232, 0.114);
+
+    // static constexpr frc::Color kAllianceColour = kBlueTarget;
+    // static constexpr frc::Color kOppositeColour = kRedTarget;
+
+    // wml::sensors::LimitSwitch highLimitSwitch {ControlMap::Intake::highLimitSwitchPort};
 
   }; IntakeSystem intakeSystem;
 

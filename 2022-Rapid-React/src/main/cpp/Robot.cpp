@@ -1,15 +1,26 @@
 #include "Robot.h"
 
+using namespace frc;
+using namespace wml;
+
 double currentTimeStamp;
 double lastTimeStamp;
 double dt;
+
 
 /**
  * Robot boot init, then runs periodic
  */
 void Robot::RobotInit() {
+  // RobotMap::IntakeSystem::colourMatcher.AddColorMatch(RobotMap::IntakeSystem::kBlueTarget);
+  // RobotMap::IntakeSystem::colourMatcher.AddColorMatch(RobotMap::IntakeSystem::kRedTarget);
+
   // Init the controllers
   ControlMap::InitSmartControllerGroup(robotMap.contGroup);
+
+  intake = new Intake(robotMap.intakeSystem, robotMap.contGroup);
+  intake->SetDefault(std::make_shared<IntakeStrategy>("Intake Manual Strategy", *intake, robotMap.contGroup));
+  intake->StartLoop(100);
 
   climber = new Climber(robotMap.climberSystem, robotMap.contGroup);
   climber->SetDefault(std::make_shared<ClimberStrategy>("Climber Manual Strategy", *climber, robotMap.contGroup));
@@ -32,9 +43,10 @@ void Robot::RobotInit() {
   // Register our systems to be called via strategy
   StrategyController::Register(drivetrain);
   StrategyController::Register(climber);
+  StrategyController::Register(intake);
 
   // Make timer
-  t = new frc::Timer();
+  // t = new frc::Timer();
 }
 
 void Robot::Update(double dt) {
@@ -57,12 +69,12 @@ void Robot::AutonomousInit() {
   drivetrain->GetConfig().gyro->Reset();
 
   // Start timer
-  t->Start();
+  // t->Start();
 }
 
 void Robot::AutonomousPeriodic() {
   // If time is less than or equal to 5 seconds, set drivetrain speed to 0.5, if over, set 0
-  (double)t->Get() <= 5 ? drivetrain->Set(0.5, 0.5) : drivetrain->Set(0, 0);
+  // (double)t->Get() <= 5 ? drivetrain->Set(0.5, 0.5) : drivetrain->Set(0, 0);
 
 }
 
@@ -72,6 +84,7 @@ void Robot::AutonomousPeriodic() {
 void Robot::TeleopInit() {
   Schedule(drivetrain->GetDefaultStrategy(), true);
   Schedule(climber->GetDefaultStrategy(), true);
+  Schedule(intake->GetDefaultStrategy(), true);
 }
 
 void Robot::TeleopPeriodic() {

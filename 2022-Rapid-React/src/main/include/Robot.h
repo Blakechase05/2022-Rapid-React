@@ -37,6 +37,7 @@ class Robot : public frc::TimedRobot, protected wml::StrategyController, protect
     // Subsystems :]
     wml::Drivetrain *drivetrain;
     Climber *climber;
+    Intake *intake;
     
-    frc::Timer* t;
+    // frc::Timer* t;
 };

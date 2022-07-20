@@ -34,14 +34,19 @@ struct ControlMap {
   };
 
   struct Intake {
-    // Intake Motor Ports
     static constexpr int intakeMotorPort = 99;
-    static constexpr int indexWheelMotorPort = 99;
     static constexpr int magazineMotorPort = 99;
+    static constexpr int magazineIndexMotorPort = 99;
+
+    // static constexpr auto lowColourSensorPort = frc::I2C::Port::kOnboard;
+    // static constexpr int highLimitSwitchPort = 99;
+
+    static constexpr double maxManualMagPower = 0.3;
+    static constexpr double maxIntakePower = 0.8; // never trust the codriver
+
   };
 
   struct Shooter {
-    // Shooter Motor Ports
     static constexpr int shooterMotorPort = 99;
   };
 
@@ -63,7 +68,9 @@ struct ControlMap {
 
   // Intake
   inline static const wml::controllers::tAxis intakeInOut {coDriver, wml::controllers::XboxController::kRightYAxis};
-  inline static const wml::controllers::tButton magUpDown {coDriver, wml::controllers::XboxController::kBottomRight};
+  inline static const wml::controllers::tButton indexManualSpin {coDriver, wml::controllers::XboxController::kA};
+  inline static const wml::controllers::tButton magManualUp {coDriver, wml::controllers::XboxController::kTop};
+  inline static const wml::controllers::tButton magManualDown {coDriver, wml::controllers::XboxController::kBottom};
 
   // Shooter
   inline static const wml::controllers::tButton shootStartStop {coDriver, wml::controllers::XboxController::kBumperRight};

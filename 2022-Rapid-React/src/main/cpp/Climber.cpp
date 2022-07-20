@@ -11,7 +11,7 @@ void Climber::Update(double dt) {
 void Climber::updateClimber(double dt) {
   switch(_state) {
     case ClimberState::kDeployed: {
-      double climberPower = fabs(_contGroup.Get(ControlMap::climberUpDown)) > ControlMap::triggerDeadzone ? _contGroup.Get(ControlMap::magUpDown) : 0;
+      double climberPower = fabs(_contGroup.Get(ControlMap::climberUpDown)) > ControlMap::triggerDeadzone ? _contGroup.Get(ControlMap::climberUpDown) : 0;
 
       climberPower *= ControlMap::Climber::maxClimbPower;
 
